@@ -82,19 +82,59 @@ p{margin:0;color:var(--muted)}
 .button{display:inline-block;background:var(--purple);color:white;padding:15px 25px;border-radius:13px;font-weight:800;text-decoration:none}
 .footer{padding:25px 78px;background:#17131d;color:#99909f;font-size:12px;display:flex;justify-content:space-between;gap:20px}
 @media(max-width:850px){
-  section,.flow-wrap,.cta{padding:52px 28px}
-  .cover{min-height:650px}
-  .problem-grid,.miniapp,.assistant-grid,.two{grid-template-columns:1fr}
-  .flow{grid-template-columns:1fr 1fr}
+  section,.flow-wrap,.cta{padding:48px 24px}
+  .cover{min-height:600px}
+  .miniapp,.assistant-grid{grid-template-columns:1fr}
+  .problem-grid,.flow,.two{grid-template-columns:1fr 1fr}
   .lifecycle,.result{grid-template-columns:1fr}
-  .cover-bottom{flex-direction:column;align-items:flex-start}
-  .footer{padding:22px 28px}
+  .cover-bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .footer{padding:20px 24px;flex-wrap:wrap;gap:6px}
 }
 @media(max-width:540px){
   .page{width:100%;margin:0}
-  .cover{padding:34px 24px}
-  .flow{grid-template-columns:1fr}
-  h2{font-size:33px}
+  section,.flow-wrap,.cta{padding:34px 18px}
+  .cover{padding:28px 18px;min-height:auto}
+  h1{font-size:32px;margin:18px 0 14px}
+  .cover .lead{font-size:16px}
+  .cover-stat{font-size:12px;padding-left:14px}
+  h2{font-size:24px}
+  .section-intro{font-size:14px}
+  .problem-grid{gap:8px}
+  .problem{padding:14px;border-radius:14px}
+  .problem .num{font-size:10px;margin-bottom:10px}
+  .problem strong{font-size:14px;margin-bottom:4px}
+  .problem p{font-size:12px}
+  .quote{padding:18px;font-size:16px;border-radius:16px;margin-top:24px}
+  .flow{grid-template-columns:1fr 1fr;gap:8px}
+  .flow-card{min-height:auto;padding:14px;border-radius:14px}
+  .flow-card h3{font-size:14px;margin-top:14px}
+  .flow-card p{font-size:11px}
+  .tag{font-size:9px;padding:4px 7px}
+  .miniapp{gap:24px}
+  .phone-shot{padding:8px;border-radius:20px}
+  .features{gap:10px}
+  .icon{width:34px;height:34px;border-radius:10px;font-size:14px}
+  .feature{gap:10px}
+  .feature h3{font-size:14px}
+  .feature p{font-size:12px}
+  .lifecycle{gap:8px}
+  .life{padding:16px;border-radius:14px}
+  .life h3{margin-top:10px;font-size:16px}
+  .life p{font-size:12px}
+  .two{grid-template-columns:1fr 1fr;gap:8px}
+  .card{padding:16px;border-radius:16px}
+  .card h3{font-size:14px}
+  .small{font-size:11px}
+  .chat{padding:14px;border-radius:16px}
+  .msg{padding:10px 12px;font-size:12px;margin-bottom:8px}
+  .msg.user{margin-left:14px}
+  .msg.ai{margin-right:14px}
+  .result{gap:8px}
+  .result .metric{padding:16px;border-radius:14px}
+  .metric b{font-size:19px}
+  .cta h2{font-size:24px}
+  .cta p{font-size:14px}
+  .button{padding:12px 20px;font-size:14px}
 }
 @media print{
   body{background:white}
