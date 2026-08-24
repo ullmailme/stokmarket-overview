@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Стоковый магазин — система автоматизации продаж</title>
+<style>
+:root {
+  --ink:#17151d; --muted:#6e6a75; --soft:#f5f3f8; --line:#e8e4ed;
+  --purple:#6f16d8; --purple2:#8d39ed; --violet:#b98af4;
+  --white:#fff; --green:#35a47a; --red:#d85b6a;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink);background:#eceaf0;line-height:1.45}
+.page{width:min(1120px,calc(100% - 32px));margin:24px auto;background:#fff;box-shadow:0 24px 80px rgba(26,17,42,.12);overflow:hidden}
+section{padding:76px 78px}
+.cover{min-height:720px;position:relative;color:white;background:radial-gradient(circle at 85% 10%,rgba(184,138,244,.45),transparent 27%),radial-gradient(circle at 15% 100%,rgba(111,22,216,.75),transparent 35%),linear-gradient(135deg,#191321 0%,#2b1245 48%,#6417bf 100%);display:flex;flex-direction:column;justify-content:space-between}
+.cover:after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,black,transparent 80%);pointer-events:none}
+.cover > *{position:relative;z-index:1}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12px;text-transform:uppercase;letter-spacing:.16em;opacity:.72;font-weight:700}
+.dot{width:7px;height:7px;border-radius:50%;background:#d7b9ff}
+h1{font-size:clamp(42px,6vw,72px);line-height:.98;letter-spacing:-.055em;max-width:850px;margin:26px 0 22px}
+.cover .lead{font-size:21px;line-height:1.5;max-width:720px;color:#e9dff5}
+.cover-bottom{display:flex;justify-content:space-between;gap:30px;align-items:flex-end}
+.cover-stat{border-left:1px solid rgba(255,255,255,.3);padding-left:18px;max-width:300px;color:#e7dff0;font-size:14px}
+h2{margin:0 0 18px;font-size:40px;line-height:1.05;letter-spacing:-.04em}
+h3{margin:0 0 8px;font-size:21px;letter-spacing:-.02em}
+p{margin:0;color:var(--muted)}
+.section-intro{max-width:700px;font-size:18px}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:42px}
+.problem{padding:25px;border:1px solid var(--line);border-radius:20px;background:#fff}
+.problem .num{font-size:12px;color:#9a91a4;font-weight:800;letter-spacing:.12em;margin-bottom:18px}
+.problem strong{display:block;font-size:19px;margin-bottom:7px}
+.problem.bad{background:#fbf8fa}
+.problem.bad .num{color:var(--red)}
+.quote{margin-top:34px;padding:28px 30px;border-radius:22px;background:var(--soft);font-size:24px;line-height:1.3;letter-spacing:-.025em}
+.flow-wrap{background:#17131d;color:#fff;padding:78px}
+.flow-wrap h2{color:#fff}
+.flow-wrap .section-intro{color:#b9b2c0}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:42px}
+.flow-card{min-height:170px;border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.045);border-radius:18px;padding:20px;position:relative}
+.flow-card .n{font:700 11px ui-monospace,monospace;color:#b98af4;letter-spacing:.1em}
+.flow-card h3{font-size:18px;margin-top:28px;color:#fff}
+.flow-card p{font-size:14px;color:#aaa3b1}
+.flow-card.user{border-color:rgba(185,138,244,.35)}
+.flow-card.ai{border-color:rgba(53,164,122,.3)}
+.tag{display:inline-block;padding:5px 9px;border-radius:99px;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:#eee8f6;color:#6d3ca0}
+.ai-label{background:#e8f5f0;color:#23795b}
+.miniapp{display:grid;grid-template-columns:1.02fr .98fr;gap:58px;align-items:center}
+.phone-shot{background:linear-gradient(145deg,#f0eef4,#fff);border:1px solid var(--line);border-radius:28px;padding:14px;box-shadow:0 25px 55px rgba(52,30,75,.14)}
+.phone-shot img{width:100%;display:block;border-radius:19px}
+.features{display:grid;gap:14px;margin-top:30px}
+.feature{display:grid;grid-template-columns:42px 1fr;gap:14px;align-items:start}
+.icon{width:42px;height:42px;border-radius:13px;background:#f0e7fb;color:var(--purple);display:flex;align-items:center;justify-content:center;font-weight:800}
+.feature p{font-size:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:40px}
+.card{border:1px solid var(--line);border-radius:22px;padding:28px;background:#fff}
+.card.purple{background:linear-gradient(145deg,#6415be,#8d39ed);color:#fff;border:none}
+.card.purple p,.card.purple .small{color:#e8daf7}
+.small{font-size:13px;color:var(--muted)}
+.lifecycle{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:38px}
+.life{border:1px solid var(--line);border-radius:20px;padding:24px}
+.life .state{font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:800;color:#8a8290}
+.life h3{margin-top:16px}
+.life p{font-size:14px}
+.life.done{background:#f1f8f5;border-color:#d9eee5}
+.life.stuck{background:#fcf7f2}
+.assistant{background:radial-gradient(circle at 90% 15%,rgba(185,138,244,.24),transparent 30%),#20182a;color:#fff}
+.assistant p{color:#c8bdce}
+.assistant-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.chat{border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:20px;background:rgba(255,255,255,.05)}
+.msg{padding:14px 16px;border-radius:16px;margin-bottom:10px;font-size:14px}
+.msg.user{background:#fff;color:#29232e;margin-left:35px}
+.msg.ai{background:#5f16b4;color:#fff;margin-right:35px}
+.result{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px}
+.result .metric{padding:24px;border-radius:20px;background:#f7f5f9}
+.metric b{font-size:25px;display:block;margin-bottom:5px}
+.cta{background:linear-gradient(135deg,#f5f1fa,#fff);text-align:center;padding:78px}
+.cta h2{max-width:720px;margin:0 auto 15px}
+.cta p{max-width:620px;margin:0 auto 30px;font-size:18px}
+.button{display:inline-block;background:var(--purple);color:white;padding:15px 25px;border-radius:13px;font-weight:800;text-decoration:none}
+.footer{padding:25px 78px;background:#17131d;color:#99909f;font-size:12px;display:flex;justify-content:space-between;gap:20px}
+@media(max-width:850px){
+  section,.flow-wrap,.cta{padding:52px 28px}
+  .cover{min-height:650px}
+  .problem-grid,.miniapp,.assistant-grid,.two{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr 1fr}
+  .lifecycle,.result{grid-template-columns:1fr}
+  .cover-bottom{flex-direction:column;align-items:flex-start}
+  .footer{padding:22px 28px}
+}
+@media(max-width:540px){
+  .page{width:100%;margin:0}
+  .cover{padding:34px 24px}
+  .flow{grid-template-columns:1fr}
+  h2{font-size:33px}
+}
+@media print{
+  body{background:white}
+  .page{width:100%;margin:0;box-shadow:none}
+  section,.flow-wrap,.cta{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<section class="cover">
+  <div>
+    <div class="eyebrow"><span class="dot"></span> система для стокового магазина</div>
+    <h1>От контейнера<br>до продажи —<br>без ручной рутины.</h1>
+    <p class="lead">Сервис, который помогает быстро превратить новый товар в готовое объявление, следит за его продажей и держит весь ассортимент в одном месте.</p>
+  </div>
+  <div class="cover-bottom">
+    <div class="cover-stat"><b>Главная идея</b><br>Сотрудник делает только то, что действительно требует человека. Остальное берёт на себя система.</div>
+    <div class="cover-stat"><b>В комплекте</b><br>Мини-приложение в мессенджере + автоматизация + персональный AI-ассистент.</div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow" style="color:#8b8192"><span class="dot" style="background:#8b8192"></span> как сейчас</div>
+  <h2 style="margin-top:16px">Проблема не в продаже.<br>Проблема — вокруг неё.</h2>
+  <p class="section-intro">Каждый новый товар запускает одну и ту же цепочку действий. При точных наименований именно эта рутина начинает съедать время сотрудников.</p>
+  <div class="problem-grid">
+    <div class="problem bad"><div class="num">01 / ПРИЁМКА</div><strong>Нужно понять, что приехало</strong><p>Разобрать товар, найти название, модель, характеристики и понять, по какой цене его можно продавать.</p></div>
+    <div class="problem bad"><div class="num">02 / ОФОРМЛЕНИЕ</div><strong>Нужно подготовить объявление</strong><p>Сфотографировать, написать текст, определить цену, собрать ссылки и оформить пост.</p></div>
+    <div class="problem bad"><div class="num">03 / ЛЕНТА</div><strong>Товар быстро теряется</strong><p>Новые публикации перекрывают старые. Хороший товар может просто исчезнуть из поля зрения покупателей.</p></div>
+    <div class="problem bad"><div class="num">04 / ПОСЛЕ ПРОДАЖИ</div><strong>Старый пост остаётся жить</strong><p>Покупатель пишет по товару, которого уже нет. Менеджерам приходится вручную проверять остаток и объяснять ситуацию.</p></div>
+  </div>
+  <div class="quote">«В итоге сотрудники тратят время не на продажи, а на обслуживание процесса вокруг продаж.»</div>
+</section>
+
+<div class="flow-wrap">
+  <div class="eyebrow"><span class="dot"></span> предлагаемая система</div>
+  <h2 style="margin-top:16px">Один процесс вместо<br>десятка ручных операций.</h2>
+  <p class="section-intro">Сотрудник фотографирует товар и подтверждает найденный вариант. Дальше сервис собирает карточку, помогает определить цену, публикует товар и следит за его судьбой.</p>
+  <div class="flow">
+    <div class="flow-card user"><span class="n">01</span><h3>Фото</h3><p>Один снимок товара прямо в приложении.</p><span class="tag">сотрудник</span></div>
+    <div class="flow-card ai"><span class="n">02</span><h3>Распознавание</h3><p>Тип, бренд, цвет, размер, модель и другие признаки.</p><span class="tag ai-label">AI</span></div>
+    <div class="flow-card ai"><span class="n">03</span><h3>Поиск информации</h3><p>Поиск похожих карточек и готового описания.</p><span class="tag ai-label">AI</span></div>
+    <div class="flow-card user"><span class="n">04</span><h3>Подтверждение</h3><p>Сотрудник выбирает наиболее точное совпадение.</p><span class="tag">сотрудник</span></div>
+    <div class="flow-card ai"><span class="n">05</span><h3>Цена</h3><p>Сервис предлагает цену с учётом рынка и правил магазина.</p><span class="tag ai-label">AI</span></div>
+    <div class="flow-card user"><span class="n">06</span><h3>Ваши фото</h3><p>Добавляются фотографии именно вашего экземпляра.</p><span class="tag">сотрудник</span></div>
+    <div class="flow-card ai"><span class="n">07</span><h3>Карточка готова</h3><p>Название, описание, цена, фото, номер и статус хранятся вместе.</p><span class="tag ai-label">система</span></div>
+    <div class="flow-card ai"><span class="n">08</span><h3>Публикация</h3><p>Карточка превращается в готовый пост.</p><span class="tag ai-label">система</span></div>
+  </div>
+</div>
+
+<section>
+  <div class="miniapp">
+    <div>
+      <div class="eyebrow" style="color:#8b8192"><span class="dot" style="background:#8b8192"></span> мини-приложение</div>
+      <h2 style="margin-top:16px">Магазин прямо<br>в мессенджере.</h2>
+      <p class="section-intro">Покупателю не нужно искать нужный пост среди сотен сообщений. Товары становятся каталогом с актуальными остатками и статусами.</p>
+      <div class="features">
+        <div class="feature"><div class="icon">?</div><div><h3>Поиск по товарам</h3><p>Можно искать нужный товар, а не листать ленту.</p></div></div>
+        <div class="feature"><div class="icon">?</div><div><h3>Актуальный статус</h3><p>Проданный товар больше не выглядит доступным.</p></div></div>
+        <div class="feature"><div class="icon">?</div><div><h3>Каждый товар имеет карточку</h3><p>Информация не исчезает вместе со старым постом.</p></div></div>
+        <div class="feature"><div class="icon">?</div><div><h3>Покупка начинается с карточки</h3><p>Менеджеру проще понять, о каком товаре идёт речь.</p></div></div>
+      </div>
+    </div>
+    <div class="phone-shot"><div style="width:100%;aspect-ratio:3/4;border-radius:19px;background:linear-gradient(145deg,#efeaf7,#e3dcf2);display:flex;align-items:center;justify-content:center;color:#9a8dbd;font-size:14px">превью мини-приложения</div></div>
+  </div>
+</section>
+
+<section style="background:#faf9fb">
+  <div class="eyebrow" style="color:#8b8192"><span class="dot" style="background:#8b8192"></span> товар после публикации</div>
+  <h2 style="margin-top:16px">Продажа больше не<br>заканчивается публикацией.</h2>
+  <p class="section-intro">Система продолжает работать после выхода поста — отслеживает состояние товара и помогает не оставлять «зависшие» позиции без внимания.</p>
+  <div class="lifecycle">
+    <div class="life"><div class="state">товар опубликован</div><h3>В продаже</h3><p>Карточка хранится в системе и доступна покупателю независимо от того, сколько новых постов вышло в группе.</p></div>
+    <div class="life done"><div class="state">товар купили</div><h3>Продажа зафиксирована</h3><p>Карточка закрывается, а публикация может быть снята автоматически. Менеджерам не приходится вручную чистить ленту.</p></div>
+    <div class="life stuck"><div class="state">товар долго не продаётся</div><h3>Система предлагает действие</h3><p>Можно получить предложение изменить цену и повторно вывести товар в продажу.</p></div>
+  </div>
+  <div class="two">
+    <div class="card purple"><h3>Что меняется для менеджера</h3><p class="small">Не нужно вспоминать, где лежит товар, искать старый пост и вручную проверять остаток. Система хранит карточку и её статус.</p></div>
+    <div class="card"><h3>Что меняется для владельца</h3><p class="small">Появляется понятная картина: что продано, что осталось, что продаётся быстро и какие позиции требуют внимания.</p></div>
+  </div>
+</section>
+
+<section class="assistant">
+  <div class="assistant-grid">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> персональный AI-ассистент</div>
+      <h2 style="margin-top:16px">Вместе с системой<br>у вас появляется помощник.</h2>
+      <p class="section-intro">Не отдельная «нейросеть ради нейросети», а рабочий интерфейс для владельца. Ассистент может получать данные из системы и отвечать на вопросы о товарах, продажах и текущей ситуации.</p>
+      <div class="features">
+        <div class="feature"><div class="icon">?</div><div><h3>«Что сейчас продаётся?»</h3><p>Быстрый ответ вместо поиска по постам и таблицам.</p></div></div>
+        <div class="feature"><div class="icon">?</div><div><h3>«Что зависло?»</h3><p>Ассистент помогает увидеть позиции, которые давно не двигаются.</p></div></div>
+        <div class="feature"><div class="icon">?</div><div><h3>«Что продали за неделю?»</h3><p>Сводка по продажам и состоянию ассортимента в одном диалоге.</p></div></div>
+      </div>
+    </div>
+    <div class="chat">
+      <div class="msg user">Покажи товары, которые давно не продаются.</div>
+      <div class="msg ai">Нашёл 14 позиций. 5 из них находятся в продаже больше 30 дней. Для 3 товаров цена выше текущего рынка — могу подготовить варианты новой цены.</div>
+      <div class="msg user">А что продали за последние 7 дней?</div>
+      <div class="msg ai">За последние 7 дней продано 37 товаров. Выручка — 184 500 ₽. Быстрее всего уходят отдельные категории.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow" style="color:#8b8192"><span class="dot" style="background:#8b8192"></span> результат для бизнеса</div>
+  <h2 style="margin-top:16px">Главное — не «автоматизировать всё».</h2>
+  <p class="section-intro">Главное — убрать из рабочего дня сотрудников повторяющиеся действия, которые не создают ценности, и сделать ассортимент управляемым.</p>
+  <div class="result">
+    <div class="metric"><b>Меньше рутины</b><span>Сотрудник тратит время на подтверждение и работу с клиентом, а не на переписывание информации.</span></div>
+    <div class="metric"><b>Меньше ошибок</b><span>Карточка, цена и статус товара хранятся в одной системе.</span></div>
+    <div class="metric"><b>Больше контроля</b><span>Владелец видит не ленту сообщений, а реальное состояние ассортимента.</span></div>
+  </div>
+  <div class="quote">Это не новый способ вести магазин. Это слой автоматизации поверх того, как магазин уже работает сегодня.</div>
+</section>
+
+<section class="cta">
+  <h2>Системы стоит внедрять не тогда, когда работы станет больше. А потому что работы уже слишком много.</h2>
+  <p>Предлагаем начать с текущего процесса магазина, перенести его в систему и постепенно убрать ручные операции, которые сегодня забирают время сотрудников.</p>
+  <a class="button" href="#" onclick="window.print();return false;">Обсудить запуск</a>
+</section>
+
+<div class="footer">
+  <span>Система автоматизации стокового магазина</span>
+  <span>Мини-приложение · автоматизация · AI-ассистент</span>
+</div>
+
+</div>
+</body>
+</html>
